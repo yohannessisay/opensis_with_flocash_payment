@@ -301,11 +301,11 @@ if (UserID()) {
 
     async function payAll() {
  
-        let totalPayment = 0;
+        let totalPayment = 0; 
         const credentials = {
-            merchantEmail: "your_email@example.com",
+            merchantEmail: "your@email.com",
             apiUsername: "your_username",
-            apiPassword: "your_password",
+            apiPassword: "your_pass",
         }
         console.log($('#student-fee-table-body tr'));
         $('#student-fee-table-body tr').each(function() {
@@ -378,7 +378,7 @@ if (UserID()) {
                     data: JSON.stringify(respData),
                     contentType: "application/json",
                     beforeSend: function(xhr) {
-                        const authHeader = "Basic " + btoa(username + ":" + password);
+                        const authHeader = "Basic " + btoa(credentials.apiUsername + ":" + credentials.apiPassword);
                         xhr.setRequestHeader("Authorization", authHeader);
                     },
                     success: function(response2) {
@@ -397,7 +397,7 @@ if (UserID()) {
                         };
 
 
-                        if (response2?.order?.status === '0009') {
+                        if (response2?.order?.redirect?.method.toLowerCase() === 'get') {
                             window.open(response2?.order?.redirect?.url, '_blank');
                             return;
                         }
